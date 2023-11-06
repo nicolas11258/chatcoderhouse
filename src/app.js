@@ -23,8 +23,13 @@ io.on('connection',(socket)=>{
     console.log('Un cliente se ha conectado');
 
     socket.on('message', (data) => {
-        messages.push(data);
-        io.emit('messageLogs', messages);
+        if(data.user && data.message){
+            messages.push(data);
+        }
+        
+        if(messages.length > 0){
+            io.emit('messageLogs', messages);
+        }
     });
 
     socket.on('auth', username =>{
